@@ -15,10 +15,12 @@
       var $email =$('#email');
       var $form1= $('#form1');
       var $item =$('#item');
+      var $identity;
       var $itemarea=$('#itemarea');
       var $listgroup=$('#listgroup');
       $form2.submit(function(e){
         e.preventDefault();
+        $identity = $email.val();
         socket.emit('join',$email.val());
         $email.val('');
         socket.on('got email',function(data){
@@ -28,7 +30,8 @@
       });
       $form1.submit(function(e){
 				e.preventDefault();
-				socket.emit('send data' , $item.val());
+        console.log($email);
+				socket.emit('send data' ,$identity+ " " + $item.val());
 				$item.val('');
         socket.on('new data',function(data){
           var html='';
@@ -41,7 +44,7 @@
 			});
       $('.button2').click(function(){
         var item= $(this).parent().text();
-        socket.emit('delete',item);
+        socket.emit('delete',$identity + " " + item);
         socket.on('deleted',function(data){
           for(i=0;i<data.length;i++)
           {
