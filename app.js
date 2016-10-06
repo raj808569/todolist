@@ -12,7 +12,7 @@ http.listen (app.get('port'),function() {
 });
 io.sockets.on('connection', function (socket) {
   socket.on('join', function (data) {
-    var id=data;
+      id=data;
     socket.join(id); // We are using room of socket io
       io.sockets.in(id).emit('got email',id);
     });
