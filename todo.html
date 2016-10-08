@@ -15,12 +15,11 @@
       var $email =$('#email');
       var $form1= $('#form1');
       var $item =$('#item');
-      var $identity;
       var $itemarea=$('#itemarea');
       var $listgroup=$('#listgroup');
       $form2.submit(function(e){
         e.preventDefault();
-        $identity = $email.val();
+        $identity=$email.val();
         socket.emit('join',$email.val());
         $email.val('');
         socket.on('got email',function(data){
@@ -30,30 +29,33 @@
       });
       $form1.submit(function(e){
 				e.preventDefault();
-        console.log($email);
-				socket.emit('send data' ,$identity+ " " + $item.val());
+				socket.emit('send data' , $item.val());
 				$item.val('');
         socket.on('new data',function(data){
           var html='';
           for(i=0;i<data.length;i++)
           {
-            html+='<li class="list-group-item" style="margin-bottom:3px">'+data[i]+'<button class="button2 btn btn-sm btn btn-success" style="float:right">Completed</button></li>';
+            html+='<li class="list-group-item" style="margin-bottom:3px"><span>'+data[i]+'</span><button class="button2 btn btn-sm btn btn-success" style="float:right">Completed</button></li>';
           }
           $listgroup.html(html);
         });
 			});
-      $('.button2').click(function(){
+      $(document).ready(function() {
+      $(".button2").click(function(){
+        alert("working");
         var item= $(this).parent().text();
-        socket.emit('delete',$identity + " " + item);
+        socket.emit('delete',$identity+" "+item);
         socket.on('deleted',function(data){
+          var html='';
           for(i=0;i<data.length;i++)
           {
-            html+='<li class="list-group-item" style="margin-bottom:3px">'+data[i]+'<button class="deleteitem btn btn-sm btn btn-success" style="float:right">Completed</button></li>';
+            html+='<li class="list-group-item" style="margin-bottom:3px"><span>'+data[i]+'</span><button class="button2 btn btn-sm btn btn-success" style="float:right">Completed</button></li>';
           }
           $listgroup.html(html);
         });
       });
-		});
+    });
+    });
 		</script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
