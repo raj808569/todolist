@@ -41,10 +41,9 @@
         });
 			});
       $(document).ready(function() {
-      $(".button2").click(function(){
-        alert("working");
-        var item= $(this).parent().text();
-        socket.emit('delete',$identity+" "+item);
+      $(document).on('click','.button2',function(){
+        var item= $(this).parent().find("span").text();
+        socket.emit('delete',item);
         socket.on('deleted',function(data){
           var html='';
           for(i=0;i<data.length;i++)
