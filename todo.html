@@ -6,8 +6,6 @@
         type="text/javascript">
 
   </script>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 	<script src="/socket.io/socket.io.js"></script>
 	<script>
 		$(function(){
@@ -31,6 +29,11 @@
       });
       $form1.submit(function(e){
 				e.preventDefault();
+        if(!$item.val())
+        {
+          alert("please enter item ");
+        }
+        else{
 				socket.emit('send data' , $item.val());
 				$item.val('');
         socket.on('new data',function(data){
@@ -40,7 +43,7 @@
             html+='<li class="list-group-item" style="margin-bottom:3px"><span>'+data[i]+'</span><button class="button2 btn btn-sm btn btn-success" style="float:right">Completed</button></li>';
           }
           $listgroup.html(html);
-        });
+        }); }
 			});
       $(document).ready(function() {
       $(document).on('click','.button2',function(){
@@ -58,7 +61,8 @@
     });
     });
 		</script>
-
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   <style>
     body{
       background-image: url(http://www.millionglitters.com/background/thumb/dark/dark-pattern-034.gif);
