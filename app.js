@@ -23,11 +23,8 @@ io.sockets.on('connection', function (socket) {
       io.sockets.in(id).emit('new data',Itemdata[id]);
       });
       socket.on('delete',function(data){
-        data=data.split(" ");
         console.log(data);
-        data.splice(0,1);
-        newdata=data.toString();
-        Itemdata[id].splice(Itemdata[id].indexOf(newdata),1);
+        Itemdata[id].splice(Itemdata[id].indexOf(data),1);
         io.sockets.in(id).emit('deleted',Itemdata[id]);
         console.log(Itemdata[id]);
       });
