@@ -4,15 +4,15 @@
   "description": "simple to do app",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-  "start": "node app.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
-  "dependencies":{
-    "express":"*",
-    "ejs":"*",
-    "body-parser":"*",
-    "socket.io":"*"
+  "dependencies": {
+    "body-parser": "*",
+    "ejs": "*",
+    "express": "*",
+    "mongoose": "^4.6.3",
+    "socket.io": "*"
   }
 }
