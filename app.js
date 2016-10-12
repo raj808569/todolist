@@ -32,7 +32,10 @@ io.sockets.on('connection', function (socket) {
           else if(result)
           io.sockets.in(id).emit('display data',result.list);
           else{
-            
+                var itemOne=Todo({id:id,list:[]}).save(function(err){
+                  if (err) throw err;
+                  console.log('item saved');
+                });
           }
       });
     });
