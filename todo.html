@@ -25,6 +25,14 @@
         socket.on('got email',function(data){
           $itemarea.show();
           $userinput.html('<h1 style="margin-top:5px;margin-left:5px;color:blue;">Welcome <span style="color:white">'+data+'</span> to your ToDo List</h1>');
+          socket.on('display data',function(data){
+            var html='';
+            for(i=0;i<data.length;i++)
+            {
+              html+='<li class="list-group-item" style="margin-bottom:3px"><span>'+data[i]+'</span><button class="button2 btn btn-sm btn btn-success" style="float:right">Completed</button></li>';
+            }
+            $listgroup.html(html);
+          });
         });
       });
       $form1.submit(function(e){
