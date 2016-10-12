@@ -29,7 +29,8 @@ io.sockets.on('connection', function (socket) {
           {
             console.log("some error occurred");
           }
-          
+          if(result)
+            console.log(result);
       });
     });
     socket.on('send data',function(data){
