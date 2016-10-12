@@ -11,7 +11,7 @@ var todoSchema = new mongoose.Schema({
 var Todo = mongoose.model('Todo',todoSchema);
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-app.set('port',(process.env.PORT||3000));
+app.set('port',(process.env.PORT||8080));
 Itemdata={};var id;
 app.get('/',function(req,res){
   res.sendFile(__dirname + '/todo.html');
@@ -24,25 +24,50 @@ io.sockets.on('connection', function (socket) {
      id=data;var result;
     socket.join(id); // We are using room of socket io
       io.sockets.in(id).emit('got email',id);
-      Todo.find({id:id},function(err,result){
+      Todo.findOne({id:id},function(err,result){
           if(err)
           {
-            console.log("some error occurred");
+            throw err;
           }
-          if(result)
-            console.log(result);
+          else if(result)
+          io.sockets.in(id).emit('display data',result.list);
+          else{
+            
+          }
       });
     });
     socket.on('send data',function(data){
-      Itemdata[id].push(data);
-      console.log(Itemdata);
-      io.sockets.in(id).emit('new data',Itemdata[id]);
+      Todo.update(
+        {id:id},
+        {$push :{list:data}},
+        function(err,result){
+          if (err) throw err;
+        }
+      );
+      Todo.findOne({id:id},function(err,result){
+          if(err)
+          {
+            throw err;
+          }
+          if(result)
+          io.sockets.in(id).emit('new data',result.list);
+      });
       });
       socket.on('delete',function(data){
-        console.log(data);
-        Itemdata[id].splice(Itemdata[id].indexOf(data),1);
-        io.sockets.in(id).emit('deleted',Itemdata[id]);
-        console.log(Itemdata[id]);
+        Todo.update(
+          {id:id},
+          {$pull :{list:data}},
+          function(err,result){
+            if (err) throw err;
+          }
+        );
+        Todo.findOne({id:id},function(err,result){
+            if(err)
+            {
+              throw err;
+            }
+            if(result)
+            io.sockets.in(id).emit('deleted',result.list);
+        });
       });
-
   });
